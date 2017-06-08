@@ -1,6 +1,7 @@
 require 'optparse'
 require 'net/http'
 require 'zip'
+require 'fileutils'
 
 module WindowsShutdownTimer
   # Shutdown!
@@ -32,8 +33,14 @@ module WindowsShutdownTimer
 
     def start_timer
       # TODO download only if not already present
-      download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
-      unzip('Insomnia.zip', 'insomnia')
+      unless File.file?(EXE)
+        download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
+        unzip('Insomnia.zip', 'insomnia')
+        FileUtils.mv('insomnia/64-bit/Insomnia.exe', Dir.pwd + '/Insomnia.exe')
+        FileUtils.rm_rf('insomnia')
+        FileUtils.rm('Insomnia.zip')
+      end
+      `#{EXE}`
     end
 
     def download(base_url, path, file_name)

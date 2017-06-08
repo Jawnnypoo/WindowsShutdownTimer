@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'windows-shutdown-timer'
+
+starter = WindowsShutdownTimer::ShutdownStarter.new(ARGV)
+starter.start_timer

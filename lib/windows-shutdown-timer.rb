@@ -1,29 +1,33 @@
 require 'optparse'
 require 'net/http'
-require 'zip'
 require 'fileutils'
+require 'zip'
 
 module WindowsShutdownTimer
   # Shutdown!
   class ShutdownStarter
 
-    EXE = 'Insomnia.exe'
+    EXE = 'start Insomnia.exe'
+    INSOMNIA = 'Insomnia.exe'
     PATH = 'insomnia/64-bit'
     COMMAND_SHUTDOWN = 'shutdown /s /t '
     COMMAND_CANCEL_SHUTDOWN = 'shutdown /a'
 
     def initialize(arguments)
-      @time = nil
+
+      # Get the first arg as the time
+      @time = %w(-h --help -c).include?(arguments.first) ? nil : arguments.shift
+
       create_options_parser(arguments)
     end
 
     def create_options_parser(args)
       args.options do |opts|
-        opts.banner = 'Usage: windows-shutdown-timer [OPTIONS]'
+        opts.banner = 'Usage: windows-shutdown-timer MINUTES_UNTIL_SHUTDOWN [OPTIONS]'
         opts.separator ''
         opts.separator 'Options'
-        opts.on('-t', '--time', 'The amount of time in minutes before shutdown. 0 will cancel the shutdown') do |time|
-          @time = time
+        opts.on('-c', '--cancel', 'Cancel a pending shutdown') do
+          @time = 0
         end
         opts.on('-h', '--help', 'Displays help') do
           puts opts.help
@@ -34,7 +38,7 @@ module WindowsShutdownTimer
     end
 
     def start_timer
-      unless File.file?(EXE)
+      unless File.file?(INSOMNIA)
         download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
         unzip('Insomnia.zip', 'insomnia')
         FileUtils.mv('insomnia/64-bit/Insomnia.exe', Dir.pwd + '/Insomnia.exe')
@@ -50,7 +54,7 @@ module WindowsShutdownTimer
       else
         time_in_seconds = @time.to_i * 60
         `#{COMMAND_SHUTDOWN} #{time_in_seconds}`
-        `#{EXE}`
+        system(EXE)
       end
     end
 

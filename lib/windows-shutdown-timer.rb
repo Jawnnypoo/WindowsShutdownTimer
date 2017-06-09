@@ -7,11 +7,13 @@ module WindowsShutdownTimer
   # Shutdown!
   class ShutdownStarter
 
-    EXE = 'start Insomnia.exe'
     INSOMNIA = 'Insomnia.exe'
+    PATH_TO_TEMP = Dir.tmpdir + '/windows-shutdown-timer'
+    PATH_TO_INSOMNIA = PATH_TO_TEMP + '/' + INSOMNIA
     PATH = 'insomnia/64-bit'
     COMMAND_SHUTDOWN = 'shutdown /s /t '
     COMMAND_CANCEL_SHUTDOWN = 'shutdown /a'
+    COMMAND_INSOMNIA = "start #{PATH_TO_INSOMNIA}"
 
     def initialize(arguments)
 
@@ -38,10 +40,13 @@ module WindowsShutdownTimer
     end
 
     def start_timer
-      unless File.file?(INSOMNIA)
+      unless File.file?(PATH_TO_INSOMNIA)
+        puts 'Downloading Insomnia.exe'
         download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
         unzip('Insomnia.zip', 'insomnia')
-        FileUtils.mv('insomnia/64-bit/Insomnia.exe', Dir.pwd + '/Insomnia.exe')
+        FileUtils.mkdir(PATH_TO_TEMP)
+        FileUtils.mv('insomnia/64-bit/Insomnia.exe', PATH_TO_INSOMNIA)
+        # Cleanup
         FileUtils.rm_rf('insomnia')
         FileUtils.rm('Insomnia.zip')
       end
@@ -54,7 +59,7 @@ module WindowsShutdownTimer
       else
         time_in_seconds = @time.to_i * 60
         `#{COMMAND_SHUTDOWN} #{time_in_seconds}`
-        system(EXE)
+        `#{COMMAND_INSOMNIA}`
       end
     end
 

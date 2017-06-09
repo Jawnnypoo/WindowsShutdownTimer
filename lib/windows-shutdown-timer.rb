@@ -9,6 +9,8 @@ module WindowsShutdownTimer
 
     EXE = 'Insomnia.exe'
     PATH = 'insomnia/64-bit'
+    COMMAND_SHUTDOWN = 'shutdown /s /t '
+    COMMAND_CANCEL_SHUTDOWN = 'shutdown /a'
 
     def initialize(arguments)
       @time = nil
@@ -20,7 +22,7 @@ module WindowsShutdownTimer
         opts.banner = 'Usage: windows-shutdown-timer [OPTIONS]'
         opts.separator ''
         opts.separator 'Options'
-        opts.on('-t', '--time', 'The amount of time in minutes before shutdown') do |time|
+        opts.on('-t', '--time', 'The amount of time in minutes before shutdown. 0 will cancel the shutdown') do |time|
           @time = time
         end
         opts.on('-h', '--help', 'Displays help') do
@@ -32,7 +34,6 @@ module WindowsShutdownTimer
     end
 
     def start_timer
-      # TODO download only if not already present
       unless File.file?(EXE)
         download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
         unzip('Insomnia.zip', 'insomnia')
@@ -40,7 +41,17 @@ module WindowsShutdownTimer
         FileUtils.rm_rf('insomnia')
         FileUtils.rm('Insomnia.zip')
       end
-      `#{EXE}`
+      if @time == nil
+        puts 'Please enter the number of minutes until shutdown (0 to cancel):'
+        @time = gets
+      end
+      if @time.to_i == 0
+        `#{COMMAND_CANCEL_SHUTDOWN}`
+      else
+        time_in_seconds = @time.to_i * 60
+        `#{COMMAND_SHUTDOWN} #{time_in_seconds}`
+        `#{EXE}`
+      end
     end
 
     def download(base_url, path, file_name)

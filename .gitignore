@@ -6,5 +6,4 @@ artifacts/
 Gemfile.lock
 
 # Custom
-test/insomnia
-test/Insomnia.zip
+test/Insomnia.exe

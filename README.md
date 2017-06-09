@@ -1,5 +1,5 @@
 # windows-shutdown-timer
-Keep Windows machine awake until elapsed time, then shutting it down
+Keep your Windows machine awake until elapsed time, then shut it down.
 
 Useful for when you are doing something like downloading large files or installing a program.
 

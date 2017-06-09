@@ -1,7 +1,7 @@
 # windows-shutdown-timer
 Keep Windows machine awake until elapsed time, then shutting it down
 
-Useful for when you are doing something like downloading a bunch of files.
+Useful for when you are doing something like downloading large files or installing a program.
 
 This builds upon the functionality of [Insomnia](https://dlaa.me/Insomnia/) which can keep your machine awake as long as its window is open.
 
@@ -25,9 +25,9 @@ windows-shutdown-timer 120
 ```
 which would shut down your machine after 2 hours of keeping it awake.
 
-To cancel, just run it with an argument of 0
+To cancel:
 ```
-windows-shutdown-timer 0
+windows-shutdown-timer -c
 ```
 ## License
 

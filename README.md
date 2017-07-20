@@ -29,6 +29,11 @@ To cancel a pending shutdown:
 ```
 windows-shutdown-timer -c
 ```
+And if you just want to run Insomnia
+```
+windows-shutdown-timer -1
+```
+
 ## License
 
 windows-shutdown-timer is available under the MIT license. See the LICENSE file for more info.

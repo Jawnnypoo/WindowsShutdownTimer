@@ -56,6 +56,8 @@ module WindowsShutdownTimer
       end
       if @time.to_i == 0
         `#{COMMAND_CANCEL_SHUTDOWN}`
+      elsif @time.to_i == -1
+        `#{COMMAND_INSOMNIA}`
       else
         time_in_seconds = @time.to_i * 60
         `#{COMMAND_SHUTDOWN} #{time_in_seconds}`

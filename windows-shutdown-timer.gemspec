@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'windows-shutdown-timer'
-  spec.version       = '1.0.1'
+  spec.version       = '1.0.2'
   spec.authors       = ['John Carlson']
   spec.email         = ['jawnnypoo@gmail.com']
 

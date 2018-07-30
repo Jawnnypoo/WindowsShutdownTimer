@@ -2,14 +2,13 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'windows-shutdown-timer'
-  spec.version       = '1.0.2'
+  spec.version       = '1.0.3'
   spec.authors       = ['John Carlson']
   spec.email         = ['jawnnypoo@gmail.com']
-
+  spec.description   = 'Shut down Windows machine after keeping it awake'
   spec.summary       = 'Starts a timer, keeping the Windows machine awake and shutting it down when the timer expires'
   spec.homepage      = 'https://github.com/Jawnnypoo/windows-shutdown-timer'
   spec.license       = 'MIT'
-
   spec.files         = ['lib/windows-shutdown-timer.rb']
   spec.bindir        = 'bin'
   spec.require_paths << 'lib'

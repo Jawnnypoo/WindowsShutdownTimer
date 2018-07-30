@@ -31,6 +31,9 @@ module WindowsShutdownTimer
         opts.on('-c', '--cancel', 'Cancel a pending shutdown') do
           @time = 0
         end
+        opts.on('-i', '--insomnia', 'Just runs Insomnia') do
+          @time = -1
+        end
         opts.on('-h', '--help', 'Displays help') do
           puts opts.help
           exit

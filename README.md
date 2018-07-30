@@ -34,6 +34,12 @@ And if you just want to run Insomnia
 windows-shutdown-timer -1
 ```
 
+## Deployment
+1. Adjust the version in the gemspec
+2. `gem build windows-shutdown-timer.gemspec`
+3. `gem push windows-shutdown-timer-version.number.here.gem`
+4. Tag release in git
+
 ## License
 
 windows-shutdown-timer is available under the MIT license. See the LICENSE file for more info.

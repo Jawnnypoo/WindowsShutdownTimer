@@ -34,7 +34,15 @@ And if you just want to run Insomnia
 windows-shutdown-timer -1
 ```
 
-## Deployment
+## Dev Notes
+You can ignore these, if you are not developing this gem
+
+### Testing Locally
+```
+ruby /test/test.rb
+```
+
+### Deployment
 1. Adjust the version in the gemspec
 2. `gem build windows-shutdown-timer.gemspec`
 3. `gem push windows-shutdown-timer-version.number.here.gem`

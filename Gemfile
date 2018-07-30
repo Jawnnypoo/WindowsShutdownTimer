@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'rubyzip'
+gem 'rubyzip', '>=1.2.1'

@@ -38,6 +38,11 @@ windows-shutdown-timer -1
 You can ignore these, if you are not developing this gem
 
 ### Testing Locally
+If first run:
+```
+bundler
+```
+Then:
 ```
 ruby /test/test.rb
 ```

@@ -6,7 +6,6 @@ require 'zip'
 module WindowsShutdownTimer
   # Shutdown!
   class ShutdownStarter
-
     INSOMNIA = 'Insomnia.exe'
     PATH_TO_TEMP = Dir.tmpdir + '/windows-shutdown-timer'
     PATH_TO_INSOMNIA = PATH_TO_TEMP + '/' + INSOMNIA
@@ -16,7 +15,6 @@ module WindowsShutdownTimer
     COMMAND_INSOMNIA = "start #{PATH_TO_INSOMNIA}"
 
     def initialize(arguments)
-
       # Get the first arg as the time
       @time = %w(-h --help -c).include?(arguments.first) ? nil : arguments.shift
 
@@ -53,16 +51,16 @@ module WindowsShutdownTimer
         FileUtils.rm_rf('insomnia')
         FileUtils.rm('Insomnia.zip')
       end
-      if @time == nil
+      if @time.nil?
         puts 'Please enter the number of minutes until shutdown (0 to cancel):'
-        @time = gets
+        @time = gets.to_i
       end
-      if @time.to_i == 0
+      if @time.zero?
         `#{COMMAND_CANCEL_SHUTDOWN}`
-      elsif @time.to_i == -1
+      elsif @time == -1
         `#{COMMAND_INSOMNIA}`
       else
-        time_in_seconds = @time.to_i * 60
+        time_in_seconds = @time * 60
         `#{COMMAND_SHUTDOWN} #{time_in_seconds}`
         `#{COMMAND_INSOMNIA}`
       end
@@ -71,7 +69,7 @@ module WindowsShutdownTimer
     def download(base_url, path, file_name)
       Net::HTTP.start(base_url) do |http|
         resp = http.get(path)
-        open(file_name, 'wb') do |file|
+        File.open(file_name, 'wb') do |file|
           file.write(resp.body)
         end
       end
@@ -86,6 +84,5 @@ module WindowsShutdownTimer
         end
       end
     end
-
   end
 end

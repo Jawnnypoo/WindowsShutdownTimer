@@ -1,4 +1,5 @@
 require 'optparse'
+require 'open-uri'
 require 'net/http'
 require 'fileutils'
 require 'zip'
@@ -6,13 +7,13 @@ require 'zip'
 module WindowsShutdownTimer
   # Shutdown!
   class ShutdownStarter
-    INSOMNIA = 'Insomnia.exe'
-    PATH_TO_TEMP = Dir.tmpdir + '/windows-shutdown-timer'
-    PATH_TO_INSOMNIA = PATH_TO_TEMP + '/' + INSOMNIA
-    PATH = 'insomnia/64-bit'
-    COMMAND_SHUTDOWN = 'shutdown /s /t '
-    COMMAND_CANCEL_SHUTDOWN = 'shutdown /a'
-    COMMAND_INSOMNIA = "start #{PATH_TO_INSOMNIA}"
+    INSOMNIA = 'Insomnia.exe'.freeze
+    PATH_TO_TEMP = (Dir.tmpdir + '/windows-shutdown-timer').freeze
+    PATH_TO_INSOMNIA = (PATH_TO_TEMP + '/' + INSOMNIA).freeze
+    PATH = 'insomnia/64-bit'.freeze
+    COMMAND_SHUTDOWN = 'shutdown /s /t '.freeze
+    COMMAND_CANCEL_SHUTDOWN = 'shutdown /a'.freeze
+    COMMAND_INSOMNIA = "start #{PATH_TO_INSOMNIA}".freeze
 
     def initialize(arguments)
       # Get the first arg as the time
@@ -43,7 +44,7 @@ module WindowsShutdownTimer
     def start_timer
       unless File.file?(PATH_TO_INSOMNIA)
         puts 'Downloading Insomnia.exe'
-        download('dlaa.me', '/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
+        download('http://dlaa.me/Samples/Insomnia/Insomnia.zip', 'Insomnia.zip')
         unzip('Insomnia.zip', 'insomnia')
         FileUtils.mkdir(PATH_TO_TEMP)
         FileUtils.mv('insomnia/64-bit/Insomnia.exe', PATH_TO_INSOMNIA)
@@ -66,11 +67,10 @@ module WindowsShutdownTimer
       end
     end
 
-    def download(base_url, path, file_name)
-      Net::HTTP.start(base_url) do |http|
-        resp = http.get(path)
-        File.open(file_name, 'wb') do |file|
-          file.write(resp.body)
+    def download(url, file_name)
+      File.open(file_name, 'wb') do |saved_file|
+        open(url, 'rb') do |read_file|
+          saved_file.write(read_file.read)
         end
       end
     end

@@ -56,7 +56,7 @@ module WindowsShutdownTimer
         puts 'Please enter the number of minutes until shutdown (0 to cancel):'
         @time = gets.to_i
       end
-      if @time.zero?
+      if @time.to_i.zero?
         `#{COMMAND_CANCEL_SHUTDOWN}`
       elsif @time == -1
         `#{COMMAND_INSOMNIA}`
